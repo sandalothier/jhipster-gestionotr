@@ -1,0 +1,96 @@
+/**
+ * ConversionUnite entity.
+ * @author sanda
+ *  Cette table montre le structuration de la Dgi 
+ *  en ses diverses démembrements
+ *   RELATION
+ * 	OneToMany avec OrganigrammeDgi
+ *  
+ */
+entity OrganigrammeDgi {
+	codeEntite String
+	nomEntite String required
+}
+/**
+ * ConversionUnite entity.
+ * @author sanda
+ *  Cette table montre le structuration de la Dgi 
+ *  en ses diverses démembrements
+ *   RELATION
+ * 	ManyToOne avec OrganigrammeDgi
+ * 	ManyToOne avec Contribuable
+ * 	ManyToOne avec Qualite
+ *  
+ */
+entity Fiscalistes {
+	numMatricule String required
+}
+/**
+ * ConversionUnite entity.
+ * @author sanda
+ *  Cette table montre les diverses agences de la
+ *  Dgi sur l'étendue du territoire
+ *   RELATION
+ * 	ManyToOne avec Region
+ * 	ManyToOne avec Adresse
+ * 	OneToMany avec OrgenigrammeDgi
+ *  
+ */
+entity AgenceFiscales {
+	nomAgence String required
+}
+/**
+ * ConversionUnite entity.
+ * @author sanda
+ *  Cette table montre permet l'affectaion de fiscaliste
+ *  à un contribuable et vice versa et le debut
+ *  de chaque gestion ceci sera automatisé rendant
+ *  ainsi la mention de la date automatique
+ *   RELATION
+ * 	ManyToOne avec Fiscaliste
+ * 	ManyToOne avec OrganigrammeDgi
+ *  
+ */
+entity GestionnaireFiscaux {
+	debutGestion Date required
+}
+enum CompositionCode {
+	TITRE, CHAPITRE, SECTION, PARAGRAPHE, ALINEA
+}
+/**
+ * CodeGeneral entity.
+ * @author sanda
+ *  Cette table reprend le code general des impots et 
+ *  ainsi que les modifications opérées
+ *   RELATION
+ * 	OneToMany avec CodeGeneralSup
+ *  
+ */
+entity CodeGeneral {
+	article CompositionCode
+	numero Integer
+	active Boolean
+	contenu String
+}
+relationship OneToMany {
+	OrganigrammeDgi to OrganigrammeDgi
+}
+relationship OneToMany {
+	OrganigrammeDgi to CodeGeneral
+}
+relationship OneToMany {
+	OrganigrammeDgi to AgenceFiscales
+}
+relationship OneToMany {
+	OrganigrammeDgi to Fiscalistes
+}
+relationship OneToMany {
+	AgenceFiscales to Fiscalistes
+}
+relationship OneToMany {
+	GestionnaireFiscaux to Contribuable
+}
+relationship OneToMany {
+	AgenceFiscales to GestionnaireFiscaux
+}
+
